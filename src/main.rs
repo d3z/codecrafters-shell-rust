@@ -23,6 +23,7 @@ fn run_command(input: &str) {
 
     match command {
         "exit" => std::process::exit(args.get(0).unwrap_or(&"0").parse().unwrap()),
+        "echo" => println!("{}", args.join(" ")),
         _ => print!("{}: command not found\n", command),
     }
 }
