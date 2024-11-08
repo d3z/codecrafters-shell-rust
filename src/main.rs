@@ -25,6 +25,14 @@ fn run_command(input: &str) {
 
     if BUILTINS.contains(&command) {
         run_builtin(command, args);
+    } else if let Some(path) = find_command_path(command) {
+        let status = std::process::Command::new(path)
+            .args(args)
+            .status()
+            .expect("failed to execute process");
+        if !status.success() {
+            println!("{}: command failed with status {}", command, status);
+        }    
     } else {
         println!("{}: command not found", command);
     }
@@ -46,15 +54,23 @@ fn run_type(command: &str) {
         find_command_in_path(command);
     }
 }
- 
+
 fn find_command_in_path(command: &str) {
+    if let Some(path) = find_command_path(command) {
+        println!("{} is {}", command, path);
+    } else {
+        println!("{}: command not found", command);
+    }
+}
+
+fn find_command_path(command: &str) -> Option<String> {
     let path = std::env::var("PATH").unwrap();
     for dir in path.split(':') {
         let full_path = format!("{}/{}", dir, command);
         if std::path::Path::new(&full_path).exists() {
-            println!("{} is {}", command, full_path);
-            return;
+            return Some(full_path);
         }
     }
-    println!("{}: not found", command);
+    None
 }
+ 
