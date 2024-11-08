@@ -59,7 +59,7 @@ fn find_command_in_path(command: &str) {
     if let Some(path) = find_command_path(command) {
         println!("{} is {}", command, path);
     } else {
-        println!("{}: command not found", command);
+        println!("{}: not found", command);
     }
 }
 
