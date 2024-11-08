@@ -16,7 +16,7 @@ fn main() {
     }
 }
 
-const BUILTINS: &[&str] = &["exit", "echo", "type", "pwd"];
+const BUILTINS: &[&str] = &["exit", "echo", "type", "pwd", "cd"];
 
 fn run_command(input: &str) {
     let args: Vec<&str> = input.split_whitespace().collect();
@@ -44,6 +44,12 @@ fn run_builtin(command: &str, args: &[&str]) {
         "echo" => println!("{}", args.join(" ")),
         "type" => run_type(args.get(0).unwrap_or(&"")),
         "pwd" => println!("{}", std::env::current_dir().unwrap().display()),
+        "cd" => {
+            let path = args.get(0).unwrap_or(&"");
+            if let Err(_e) = std::env::set_current_dir(path) {
+                println!("cd: {}: No such file or directory", path);
+            }
+        },
         _ => println!("{}: command not found", command),
     }
 }
