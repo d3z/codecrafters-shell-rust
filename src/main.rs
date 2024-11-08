@@ -16,7 +16,7 @@ fn main() {
     }
 }
 
-const BUILTINS: &[&str] = &["exit", "echo", "type"];
+const BUILTINS: &[&str] = &["exit", "echo", "type", "pwd"];
 
 fn run_command(input: &str) {
     let args: Vec<&str> = input.split_whitespace().collect();
@@ -43,6 +43,7 @@ fn run_builtin(command: &str, args: &[&str]) {
         "exit" => std::process::exit(args.get(0).unwrap_or(&"0").parse().unwrap()),
         "echo" => println!("{}", args.join(" ")),
         "type" => run_type(args.get(0).unwrap_or(&"")),
+        "pwd" => println!("{}", std::env::current_dir().unwrap().display()),
         _ => println!("{}: command not found", command),
     }
 }
