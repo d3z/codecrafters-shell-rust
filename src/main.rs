@@ -11,5 +11,5 @@ fn main() {
     let mut input = String::new();
     stdin.read_line(&mut input).unwrap();
 
-    print!("{}: command not found", input.trim());
+    print!("{}: command not found\n", input.trim());
 }
