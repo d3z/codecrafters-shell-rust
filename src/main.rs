@@ -11,6 +11,18 @@ fn main() {
         let mut input = String::new();
     
         stdin.read_line(&mut input).unwrap();
-        print!("{}: command not found\n", input.trim());
+
+        run_command(&input);
+    }
+}
+
+fn run_command(input: &str) {
+    let args: Vec<&str> = input.split_whitespace().collect();
+    let command = args[0];
+    let args = &args[1..];
+
+    match command {
+        "exit" => std::process::exit(args.get(0).unwrap_or(&"0").parse().unwrap()),
+        _ => print!("{}: command not found\n", command),
     }
 }
