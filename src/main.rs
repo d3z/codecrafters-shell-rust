@@ -45,8 +45,8 @@ fn run_builtin(command: &str, args: &[&str]) {
         "type" => run_type(args.get(0).unwrap_or(&"")),
         "pwd" => println!("{}", std::env::current_dir().unwrap().display()),
         "cd" => {
-            let path = args.get(0).unwrap_or(&"");
-            if let Err(_e) = std::env::set_current_dir(path) {
+            let path = args.get(0).unwrap_or(&"").replace("~", std::env::var("HOME").unwrap().as_str());
+            if let Err(_e) = std::env::set_current_dir(&path) {
                 println!("cd: {}: No such file or directory", path);
             }
         },
