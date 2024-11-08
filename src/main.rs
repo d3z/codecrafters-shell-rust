@@ -34,7 +34,7 @@ fn run_command(input: &str) {
             println!("{}: command failed with status {}", command, status);
         }    
     } else {
-        println!("{}: command not found", command);
+        println!("{}: not found", command);
     }
 }
 
